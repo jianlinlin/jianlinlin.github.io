@@ -80,7 +80,7 @@
 .site-nav .trigger .page-link { margin:0!important; white-space:nowrap; }
 .site-nav .language-toggle { flex:0 0 auto; margin:0; white-space:nowrap; }
 .cover { height:auto; min-height:0; max-width:100%; padding:34px 18px; box-sizing:border-box; background-position:center top; }
-.profile-wrapper { top:0; width:min(1120px,100%); margin:0 auto; padding:20px 28px; display:grid; grid-template-columns:220px minmax(0,1fr); align-items:center; gap:24px; box-sizing:border-box; }
+.profile-wrapper { top:0; width:min(760px,100%); margin:0 auto; padding:18px 22px; display:grid; grid-template-columns:150px minmax(0,1fr); align-items:center; gap:20px; box-sizing:border-box; }
 .profile-col { float:none!important; width:auto!important; margin:0; text-align:center; }
 .profile-col-1, .profile-col-2 { width:auto!important; }
 .circle-img { display:block; width:min(100%,190px); height:auto; }
@@ -88,6 +88,11 @@
 .social-media .icon-button { flex:0 0 44px; width:44px; height:44px; margin:0; font-size:23px; line-height:44px; }
 .social-media .icon-button i { width:44px; height:44px; line-height:44px; }
 .social-media .icon-button:hover span { width:44px; height:44px; margin:-22px; }
+#my-email { color:#555; }
+#wechat-account { display:flex; justify-content:center; margin:18px 0 28px; }
+.wechat-footer-qr { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; width:148px; min-height:168px; padding:12px; border:1px dashed #c8c8c8; background:#fff; color:#777; text-align:center; box-sizing:border-box; }
+.wechat-footer-qr .fa { color:#9b3022; font-size:92px; line-height:1; }
+.wechat-footer-qr span { font-size:12px; line-height:1.3; }
 .resources-section { scroll-margin-top:18px; }
 .resource-details > summary { cursor:pointer; list-style:none; }
 .resource-details > summary::-webkit-details-marker { display:none; }
@@ -120,6 +125,10 @@
   .palette-swatch { padding:7px 5px; gap:6px; }
   .palette-dot { flex-basis:28px; width:28px; height:28px; }
   .palette-values { font-size:10px; }
+}
+@media(max-width:560px) {
+  .wechat-footer-qr { width:132px; min-height:148px; }
+  .wechat-footer-qr .fa { font-size:78px; }
 }
 @media(max-width:560px) {
   .palette-color-row { flex-wrap:wrap; }
