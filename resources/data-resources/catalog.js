@@ -145,7 +145,7 @@ function renderCards() {
       (!ui.from.value && !ui.to.value || item.years.some(year => year >= from && year <= to));
   });
   ui.cards.innerHTML = matches.map(renderCard).join("");
-  ui.count.textContent = matches.length + " " + label("count") + " " + label("result");
+  ui.count.textContent = activeLanguage === "zh" ? "显示 " + matches.length + " 个数据库" : matches.length + " datasets shown";
   ui.empty.hidden = matches.length > 0;
   ui.cards.hidden = matches.length === 0;
 }
