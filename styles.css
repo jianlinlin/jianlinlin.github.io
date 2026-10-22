@@ -134,3 +134,59 @@
   .palette-color-row { flex-wrap:wrap; }
   .palette-swatch { flex:1 1 calc(50% - 6px); max-width:none; }
 }
+
+/* Center the primary navigation while keeping the language control at the edge. */
+.site-nav { position:relative; justify-content:center; }
+.site-nav .trigger { justify-content:center; margin:0; }
+.site-nav .language-toggle { position:absolute; right:0; }
+.nav-resource-item { position:relative; display:flex; align-items:center; }
+.resource-subnav { display:none; position:absolute; top:100%; left:50%; z-index:30; min-width:220px; padding:7px; transform:translateX(-50%); flex-direction:column; gap:0; border:1px solid #dedede; border-radius:5px; background:#fff; box-shadow:0 8px 20px rgba(0,0,0,.14); line-height:1.4; text-align:left; }
+.nav-resource-item:hover .resource-subnav,
+.nav-resource-item:focus-within .resource-subnav { display:flex; }
+.site-nav .resource-subnav .page-link { display:block; margin:0!important; padding:9px 12px; border-radius:3px; white-space:nowrap; }
+.site-nav .resource-subnav .page-link:hover { background:#f5f5f5; }
+
+.resource-card-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:24px 0 30px; }
+.resource-card { display:flex; flex-direction:column; align-items:flex-start; gap:10px; min-height:190px; padding:22px; border:1px solid #d3d3d3; background:#fff; text-decoration:none; }
+.resource-card > .fa { color:#9b3022; font-size:25px; }
+.resource-card b { color:#222; font-size:19px; font-weight:500; }
+.resource-card span { color:#666; font-size:14px; }
+.resource-card em { margin-top:auto; color:#2a7ae2; font-size:13px; font-style:normal; font-weight:600; }
+.resource-card:hover { border-color:#9b3022; box-shadow:0 3px 12px rgba(0,0,0,.08); text-decoration:none; }
+
+/* Use one matching footer on the homepage and every subpage. */
+.footer-col-wrapper { display:grid; grid-template-columns:minmax(180px,1fr) minmax(220px,auto) 150px minmax(180px,1fr); align-items:center; gap:24px; margin:0; }
+.footer-col { float:none; width:auto; margin:0; padding:0; }
+.footer-col-1 { width:auto; }
+.footer-col-2 { width:auto; }
+.footer-col-3 { width:auto; }
+.footer-col-4 { width:auto; }
+.footer-social-media { justify-content:center; gap:6px; margin:0; }
+.footer-social-media .icon-button { flex:0 0 38px; width:38px; height:38px; font-size:20px; line-height:38px; }
+.footer-social-media .icon-button i { width:38px; height:38px; line-height:38px; }
+.footer-social-media .icon-button:hover span { width:38px; height:38px; margin:-19px; }
+.wechat-footer-qr { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; width:132px; min-height:146px; margin:0 auto; padding:8px; border:1px dashed #c8c8c8; background:#fff; color:#777; text-align:center; box-sizing:border-box; }
+.wechat-footer-qr .fa { color:#9b3022; font-size:76px; line-height:1; }
+.wechat-footer-qr span { font-size:11px; line-height:1.25; }
+#wechat-account { scroll-margin-top:20px; }
+
+@media(max-width:1000px) {
+  .site-nav { justify-content:center; }
+  .site-nav .language-toggle { position:static; }
+  .site-nav .trigger { right:50%; transform:translateX(50%); }
+  .nav-resource-item { display:flex; flex-direction:column; align-items:stretch; }
+  .resource-subnav { display:flex; position:static; min-width:0; padding:0 0 4px 12px; transform:none; border:0; border-radius:0; background:transparent; box-shadow:none; }
+  .site-nav .resource-subnav .page-link { padding:7px 10px; }
+  .resource-card-grid { grid-template-columns:1fr; }
+  .resource-card { min-height:0; }
+  .footer-col-wrapper { grid-template-columns:minmax(0,1fr) minmax(220px,1.2fr); row-gap:22px; }
+  .footer-col-2 { grid-column:2; grid-row:1; }
+  .footer-col-3 { grid-column:1; grid-row:2; }
+  .footer-col-4 { grid-column:2; grid-row:2; }
+}
+@media(max-width:600px) {
+  .footer-col-wrapper { grid-template-columns:1fr; text-align:center; gap:18px; }
+  .footer-col-1, .footer-col-2, .footer-col-3, .footer-col-4 { grid-column:1; grid-row:auto; }
+  .footer-social-media { justify-content:center; }
+  .footer-col-4 p { margin:0; }
+}
