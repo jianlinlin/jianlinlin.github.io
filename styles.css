@@ -1,6 +1,6 @@
 /* Small additions for Jianlin Lin's version of the reference page template. */
 .shallow-bg {
-  background-image: url("https://raw.githubusercontent.com/Jun-CEN/Jun-CEN.github.io/master/images/background/background_hkust_2.jpg");
+  background-image: linear-gradient(rgba(13, 28, 40, .25), rgba(13, 28, 40, .25)), url("https://www.mpu.edu.mo/uploads/Images-Pictures/Post/034_UPM_GRP_2026_Photo%201.jpg");
 }
 .site-nav .menu-icon {
   border: 0;
@@ -29,6 +29,8 @@
 .writing-panel h2 { font-size:20px; margin:1px 0 8px; }
 .writing-panel p { color:#666; margin-bottom:10px; }
 .writing-panel a { font-size:14px; font-weight:600; }
+.honors-list { margin-left: 22px; }
+.honors-list li { padding: 5px 0; }
 .site-footer .icon-button { margin-right:8px; }
 .back-to-top { border:0; cursor:pointer; font-family:inherit; }
 @media(max-width:600px) {
