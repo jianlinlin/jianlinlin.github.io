@@ -1,6 +1,8 @@
 /* Small additions for Jianlin Lin's version of the reference page template. */
 .shallow-bg {
   background-image: linear-gradient(rgba(13, 28, 40, .25), rgba(13, 28, 40, .25)), url("https://www.mpu.edu.mo/uploads/Images-Pictures/Post/034_UPM_GRP_2026_Photo%201.jpg");
+  background-position: center top;
+  background-size: cover;
 }
 .site-nav .menu-icon {
   border: 0;
@@ -10,6 +12,7 @@
   font-size: 19px;
 }
 .site-nav .trigger.open { display: block; }
+.language-toggle { margin-left: 14px; border: 1px solid #113f7c; border-radius: 3px; padding: 4px 9px; color: #113f7c; background: #fff; cursor: pointer; font: inherit; }
 .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 .bio-columns { display:grid; grid-template-columns:1fr 1fr; gap:24px; clear:both; }
 .bio-column { width:auto!important; float:none!important; }
@@ -29,8 +32,18 @@
 .writing-panel h2 { font-size:20px; margin:1px 0 8px; }
 .writing-panel p { color:#666; margin-bottom:10px; }
 .writing-panel a { font-size:14px; font-weight:600; }
-.honors-list { margin-left: 22px; }
-.honors-list li { padding: 5px 0; }
+.honors-list { display:grid; grid-template-columns:1fr 1fr; gap:0 28px; margin-left:22px; }
+.honors-list li { padding:5px 0; }
+.service-columns { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.service-card { padding:20px; border:1px solid #d3d3d3; background:#fff; }
+.service-card h2 { margin:0 0 12px; font-size:20px; }
+.service-card h2 .fa { color:#9b3022; margin-right:7px; }
+.service-list { margin:0 0 0 18px; }
+.service-list li { padding:8px 0; }
+.service-list .fa { color:#9b3022; margin-right:7px; }
+.service-date { display:block; color:#777; font-size:13px; margin-bottom:3px; }
+.timeline-date .fa, .timeline-title > .fa { color:#9b3022; margin-right:6px; }
+#my-email a { color:inherit; }
 .site-footer .icon-button { margin-right:8px; }
 .back-to-top { border:0; cursor:pointer; font-family:inherit; }
 @media(max-width:600px) {
@@ -40,4 +53,6 @@
   .news-list li.indented:before { left:0; }
   .publication-art { width:100%; max-width:280px; margin:auto; }
   .writing-panel { padding:16px; gap:14px; }
+  .honors-list, .service-columns { grid-template-columns:1fr; }
+  .language-toggle { margin-left:5px; }
 }
