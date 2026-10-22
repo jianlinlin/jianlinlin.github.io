@@ -12,7 +12,7 @@ A lightweight, responsive personal academic website for GitHub Pages.
 
 ## Publish with GitHub Pages
 
-In the repository settings, open **Pages**, choose **Deploy from a branch**, select `main` and the `/ (root)` folder, then save. The site will be available at `https://jianlinlin.github.io/` after GitHub Pages finishes its first deployment.
+In the repository settings, open **Pages**, choose **Deploy from a branch**, select `main` and the `/ (root)` folder, then save. Because this repository is named `jianlinlin-github-io` rather than `jianlinlin.github.io`, the project site URL will be `https://jianlinlin.github.io/jianlinlin-github-io/` after GitHub Pages finishes its first deployment. If you later rename the repository to `jianlinlin.github.io`, the site can use the shorter root URL.
 
 ## Updating content
 
