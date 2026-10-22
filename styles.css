@@ -44,6 +44,20 @@
 .service-date { display:block; color:#777; font-size:13px; margin-bottom:3px; }
 .timeline-date .fa, .timeline-title > .fa { color:#9b3022; margin-right:6px; }
 #my-email a { color:inherit; }
+.resource-section { margin:20px 0 30px; }
+.resource-section h2 { margin:0 0 12px; font-size:21px; }
+.resource-section h2 .fa { color:#9b3022; margin-right:7px; }
+.platform-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+.platform-card { display:flex; flex-direction:column; gap:8px; min-height:86px; padding:17px; border:1px solid #d3d3d3; background:#fff; text-decoration:none; }
+.platform-card b { font-size:16px; }
+.platform-card span { color:#666; font-size:13px; }
+.platform-card:hover { border-color:#9b3022; box-shadow:0 2px 8px rgba(0,0,0,.08); }
+.palette-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:9px; }
+.palette-swatch { display:flex; align-items:center; gap:11px; min-width:0; padding:9px; border:1px solid #dedede; border-radius:3px; background:#fff; color:#333; text-align:left; cursor:pointer; }
+.palette-dot { flex:0 0 34px; width:34px; height:34px; border-radius:50%; background:var(--swatch); border:1px solid rgba(0,0,0,.12); }
+.palette-values { display:flex; flex-direction:column; min-width:0; font-size:12px; line-height:1.5; font-family:monospace; }
+.palette-swatch:hover { border-color:#9b3022; transform:translateY(-1px); }
+.palette-status { min-height:20px; margin-top:8px; color:#52775e; font-size:13px; }
 .site-footer .icon-button { margin-right:8px; }
 .back-to-top { border:0; cursor:pointer; font-family:inherit; }
 @media(max-width:600px) {
@@ -54,5 +68,7 @@
   .publication-art { width:100%; max-width:280px; margin:auto; }
   .writing-panel { padding:16px; gap:14px; }
   .honors-list, .service-columns { grid-template-columns:1fr; }
+  .platform-grid { grid-template-columns:1fr; }
+  .palette-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .language-toggle { margin-left:5px; }
 }
