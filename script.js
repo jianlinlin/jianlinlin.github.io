@@ -134,7 +134,18 @@ const englishToChinese = {
   "View my publications, citation counts, and author profile on Google Scholar.": "查看 Google 学术上的论文、引用情况及作者信息。",
   "Open Google Scholar profile": "打开 Google Scholar 主页",
   "Data Resources": "数据资源",
-  "Curated datasets and reusable research resources will be collected here.": "这里将整理可复用的数据集与科研资源。",
+  "Browse the datasets cataloged from my research library. Measurement years refer to data collection or observation periods, not download dates.": "此处整理研究资料库中的数据集。测量年份指实际数据采集或观察期，不是下载年份。",
+  "Browse": "导航",
+  "Filter": "筛选",
+  "Search": "搜索",
+  "Population": "研究人群",
+  "Study design": "研究设计",
+  "Country / region": "国家／地区",
+  "Measurement year": "测量年份",
+  "Reset filters": "重置筛选",
+  "Clear search": "清空搜索",
+  "All datasets": "全部数据库",
+  "No datasets match these filters. Try removing one or more filters.": "没有符合条件的数据库，请尝试取消部分筛选。",
   "Data Platforms": "数据平台",
   "Cross-national studies and harmonized aging data": "跨国家老龄化研究与协调数据",
   "Discover and access research datasets": "检索并申请访问研究数据",
@@ -168,6 +179,7 @@ function setLanguage(language) {
     toggle.setAttribute("aria-label", language === "zh" ? "Switch to English" : "切换到中文");
   }
   try { localStorage.setItem("jianlinlin-language", language); } catch (_) {}
+  document.dispatchEvent(new Event("site-language-changed"));
 }
 
 const languageToggle = document.querySelector("#language-toggle");

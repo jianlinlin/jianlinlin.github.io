@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Data resources curated by Jianlin Lin.">
+  <meta name="description" content="A searchable catalog of health, aging, population and clinical research datasets.">
   <title>Data Resources | Jianlin Lin</title>
   <link rel="stylesheet" href="../../main.css"><link rel="stylesheet" href="../../styles.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -13,21 +13,51 @@
     <button class="menu-icon" type="button" aria-expanded="false" aria-controls="site-links"><span class="sr-only">Toggle navigation</span><i class="fa fa-bars"></i></button>
     <div class="trigger" id="site-links">
       <a class="page-link" href="../../#bio">Biography</a><a class="page-link" href="../../#timeline">Experiences</a><a class="page-link" href="../../#publications">Publications</a><a class="page-link" href="../../#writing">Blog &amp; Research Notes</a><a class="page-link" href="../../#awards">Honors &amp; Awards</a><a class="page-link" href="../../#academicservices">Academic Services</a>
-      <div class="nav-resource-item"><a class="page-link" href="../">Resources</a><div class="resource-subnav" aria-label="Resource sections"><a class="page-link" href="../data-resources/">Data Resources</a><a class="page-link" href="../data-platforms/">Data Platforms</a><a class="page-link" href="../research-palette/">Research Color Palette</a></div></div>
+      <div class="nav-resource-item"><a class="page-link" href="../">Resources</a><div class="resource-subnav" aria-label="Resource sections"><a class="page-link" href="./">Data Resources</a><a class="page-link" href="../data-platforms/">Data Platforms</a><a class="page-link" href="../research-palette/">Research Color Palette</a></div></div>
     </div>
     <button class="language-toggle" id="language-toggle" type="button" aria-label="Switch language">中文</button>
   </nav></div></header>
-  <main class="page-content"><div class="wrapper resource-page"><section class="bio">
-    <h1 class="md-heading text-left"><i class="fa fa-folder-open" aria-hidden="true"></i> Data Resources</h1>
-    <p>Curated datasets and reusable research resources will be collected here.</p>
-    <p><a href="../">← Back to Resources</a></p>
-  </section></div></main>
+  <main class="page-content"><div class="wrapper resource-page data-resource-page">
+    <section class="bio">
+      <h1 class="md-heading text-left"><i class="fa fa-folder-open" aria-hidden="true"></i> Data Resources</h1>
+      <p>Browse the datasets cataloged from my research library. Measurement years refer to data collection or observation periods, not download dates.</p>
+      <p class="catalog-note"><i class="fa fa-info-circle" aria-hidden="true"></i> Data files are not hosted here. Check each provider's access rules and the dataset-specific citation required for your release. Year coverage is identified from local inventory and official documentation; wave availability may vary by release.</p>
+    </section>
+    <div class="dataset-browser">
+      <aside class="dataset-sidebar" aria-label="Dataset navigation and filters">
+        <section class="dataset-side-section">
+          <h2><i class="fa fa-compass" aria-hidden="true"></i> Browse</h2>
+          <nav class="dataset-categories" id="dataset-categories" aria-label="Dataset categories"></nav>
+        </section>
+        <section class="dataset-side-section dataset-filters">
+          <h2><i class="fa fa-sliders" aria-hidden="true"></i> Filter</h2>
+          <label for="dataset-search">Search</label>
+          <input id="dataset-search" type="search" placeholder="Name, country, tag..." autocomplete="off">
+          <label for="population-filter">Population</label>
+          <select id="population-filter"><option value="">All populations</option></select>
+          <label for="design-filter">Study design</label>
+          <select id="design-filter"><option value="">All designs</option></select>
+          <label for="country-filter">Country / region</label>
+          <select id="country-filter"><option value="">All countries / regions</option></select>
+          <label>Measurement year</label>
+          <div class="year-filter"><input id="year-from" type="number" min="1900" max="2100" inputmode="numeric" placeholder="From"><span>to</span><input id="year-to" type="number" min="1900" max="2100" inputmode="numeric" placeholder="To"></div>
+          <button class="dataset-reset" id="dataset-reset" type="button"><i class="fa fa-undo" aria-hidden="true"></i> Reset filters</button>
+        </section>
+      </aside>
+      <section class="dataset-results" aria-label="Dataset cards">
+        <div class="dataset-results-head"><p id="dataset-count" aria-live="polite"></p><button id="dataset-clear-search" class="dataset-clear-search" type="button">Clear search</button></div>
+        <div class="dataset-card-grid" id="dataset-cards"></div>
+        <p class="dataset-empty" id="dataset-empty" hidden>No datasets match these filters. Try removing one or more filters.</p>
+      </section>
+    </div>
+    <p class="resource-back-link"><a href="../">← Back to Resources</a></p>
+  </div></main>
   <footer class="site-footer"><div class="wrapper"><div class="footer-col-wrapper">
     <div class="footer-col footer-col-1"><ul class="contact-list"><li>Email: <a href="mailto:jianlin_lin@126.com">jianlin_lin@126.com</a></li><li><a href="https://www.researchgate.net/profile/Jianlin_Lin" target="_blank" rel="noreferrer">ResearchGate</a></li></ul></div>
     <div class="footer-col footer-col-2"><div class="social-media footer-social-media"><a href="https://www.researchgate.net/profile/Jianlin_Lin" target="_blank" rel="noreferrer" class="icon-button linkedin" aria-label="ResearchGate"><i class="ai ai-researchgate icon-linkedin"></i><span></span></a><a href="https://scholar.google.com/citations?user=3HBi26cAAAAJ&amp;hl=en" target="_blank" rel="noreferrer" class="icon-button linkedin" aria-label="Google Scholar"><i class="ai ai-google-scholar icon-linkedin"></i><span></span></a><a href="https://blog.csdn.net/linjianlin1996?spm=1010.2135.3001.5343" target="_blank" rel="noreferrer" class="icon-button linkedin" aria-label="CSDN"><i class="fa fa-rss icon-linkedin"></i><span></span></a><a href="https://www.zhihu.com/people/jianlinlin" target="_blank" rel="noreferrer" class="icon-button linkedin" aria-label="Zhihu"><i class="fa fa-comments icon-linkedin"></i><span></span></a><a href="#wechat-account" class="icon-button linkedin" aria-label="Personal WeChat account placeholder"><i class="fa fa-wechat icon-linkedin"></i><span></span></a></div></div>
     <div class="footer-col footer-col-3" id="wechat-account"><div class="wechat-footer-qr" aria-label="WeChat Official Account QR code placeholder"><i class="fa fa-qrcode" aria-hidden="true"></i><span>WeChat Official Account QR Code</span></div></div>
     <div class="footer-col footer-col-4"><p class="text">Personal academic website<br>Jianlin Lin · Macao Polytechnic University</p></div>
   </div></div></footer>
-  <script src="../../script.js"></script>
+  <script src="../../script.js"></script><script src="catalog.js"></script>
 </body>
 </html>
