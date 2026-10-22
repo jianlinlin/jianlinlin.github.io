@@ -1,7 +1,7 @@
 /* Small additions for Jianlin Lin's version of the reference page template. */
 .shallow-bg {
-  background-image: linear-gradient(rgba(13, 28, 40, .25), rgba(13, 28, 40, .25)), url("https://www.mpu.edu.mo/uploads/Images-Pictures/Post/034_UPM_GRP_2026_Photo%201.jpg");
-  background-position: center top;
+  background-image: linear-gradient(rgba(246, 249, 251, .16), rgba(246, 249, 251, .16)), url("assets/macau-landmark-hero-optimized.jpg");
+  background-position: center 48%;
   background-size: cover;
 }
 .site-nav .menu-icon {
@@ -158,6 +158,10 @@
 .social-media .icon-button { flex:0 0 44px; width:44px; height:44px; margin:0; font-size:23px; line-height:44px; }
 .social-media .icon-button i { width:44px; height:44px; line-height:44px; }
 .social-media .icon-button:hover span { width:44px; height:44px; margin:-22px; }
+.profile-social-media { gap:7px; margin-top:12px; }
+.profile-social-media .icon-button { border-radius:50%; box-shadow:0 2px 8px rgba(25,45,60,.12); }
+.profile-social-media .icon-button span { border-radius:50%; }
+.profile-social-media .icon-button:hover span { border-radius:50%; }
 #my-email { color:#555; }
 #wechat-account { display:flex; justify-content:center; margin:18px 0 28px; }
 .wechat-footer-qr { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; width:148px; min-height:168px; padding:12px; border:1px dashed #c8c8c8; background:#fff; color:#777; text-align:center; box-sizing:border-box; }
@@ -231,6 +235,9 @@
 .footer-col-2 { width:auto; }
 .footer-col-3 { width:auto; }
 .footer-col-4 { width:auto; }
+.footer-address { display:block; margin-top:7px; font-size:12px; line-height:1.5; overflow-wrap:anywhere; }
+.footer-address .fa { margin-right:5px; color:#9b3022; }
+.footer-address a { display:inline; }
 .footer-social-media { justify-content:center; gap:6px; margin:0; }
 .footer-social-media .icon-button { flex:0 0 38px; width:38px; height:38px; font-size:20px; line-height:38px; }
 .footer-social-media .icon-button i { width:38px; height:38px; line-height:38px; }

@@ -122,6 +122,8 @@ const englishToChinese = {
   "Personal public account": "个人公众号",
   "Reserved for the account name, introduction, and QR code. Details can be added when you share them.": "此处预留公众号名称、简介和二维码，后续可补充具体信息。",
   "Email:": "邮箱：",
+  "Address:": "地址：",
+  "Rua de Luís Gonzaga Gomes, Macao, China": "澳门高美士街",
   "Personal academic website": "个人学术网站",
   "Resources": "资源",
   "Browse each collection on its own page.": "每个资源类别均在独立页面展示。",
