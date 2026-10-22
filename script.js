@@ -9,7 +9,12 @@ if (menuButton && navigation) {
   });
 
   navigation.addEventListener("click", (event) => {
-    if (event.target.closest("a")) {
+    const link = event.target.closest("a");
+    if (link?.getAttribute("href") === "#resources") {
+      const resources = document.querySelector("#resources-details");
+      if (resources) resources.open = true;
+    }
+    if (link) {
       menuButton.setAttribute("aria-expanded", "false");
       navigation.classList.remove("open");
     }
@@ -168,14 +173,15 @@ if (languageToggle) {
   });
 }
 
-const paletteHex = [
-  "#E7CACC", "#B8CAE7", "#CE4844", "#2A73BA", "#63CBA1", "#9E96DC", "#569FD8", "#62B7A0",
-  "#EA9A99", "#8CC2E0", "#EEADAB", "#8DB18D", "#A5C7E0", "#E8E0AD", "#DADADA", "#3F83A4",
-  "#6BAED8", "#EDC3A1", "#A53E34", "#009391", "#EFB47A", "#B3A9ED", "#C4E3F2", "#F1BFDA",
-  "#DBDBDB", "#525252", "#F6847A", "#F8B583", "#4194C6", "#CA87A7", "#80A0CB", "#F6E7C6",
-  "#CFDBCC", "#ACBFE0", "#D7B3D5", "#F4C6C7", "#7ABBCF", "#C3C9C9", "#C4C2C3", "#D18B96",
-  "#7CD3A3", "#ADDBE1", "#FADBAD", "#616566", "#6A9DB9", "#F8C7C5", "#B0D5DB", "#ACC3E5",
-  "#D7DADB", "#C05F60", "#8A8A8A", "#ED708C", "#A1D1B4", "#E5C9B9"
+const paletteGroups = [
+  [["#E7CACC", "#B8CAE7"], ["#CE4844", "#2A73BA"]],
+  [["#63CBA1", "#9E96DC", "#569FD8"], ["#62B7A0", "#EA9A99", "#8CC2E0"]],
+  [["#EEADAB", "#8DB18D", "#A5C7E0", "#E8E0AD"], ["#DADADA", "#3F83A4", "#6BAED8", "#EDC3A1"], ["#A53E34"]],
+  [["#009391", "#EFB47A", "#B3A9ED", "#C4E3F2"], ["#F1BFDA", "#DBDBDB"]],
+  [["#525252", "#F6847A", "#F8B583", "#4194C6"], ["#CA87A7", "#80A0CB"]],
+  [["#F6E7C6", "#CFDBCC", "#ACBFE0", "#D7B3D5"], ["#F4C6C7", "#7ABBCF", "#C3C9C9"]],
+  [["#C4C2C3", "#D18B96", "#7CD3A3", "#ADDBE1"], ["#FADBAD", "#616566", "#6A9DB9", "#F8C7C5"]],
+  [["#B0D5DB", "#ACC3E5", "#D7DADB", "#C05F60"], ["#8A8A8A", "#ED708C", "#A1D1B4", "#E5C9B9"]]
 ];
 
 const paletteGrid = document.querySelector("#palette-grid");
@@ -184,32 +190,42 @@ if (paletteGrid) {
   status.className = "palette-status";
   status.setAttribute("aria-live", "polite");
   paletteGrid.after(status);
-  paletteHex.forEach((hex) => {
-    const rgb = hex.slice(1).match(/.{2}/g).map((part) => parseInt(part, 16));
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "palette-swatch";
-    button.style.setProperty("--swatch", hex);
-    button.setAttribute("aria-label", `Copy ${hex}, RGB ${rgb.join(", ")}`);
-    const dot = document.createElement("span");
-    dot.className = "palette-dot";
-    dot.setAttribute("aria-hidden", "true");
-    const values = document.createElement("span");
-    values.className = "palette-values";
-    const hexLabel = document.createElement("span");
-    hexLabel.textContent = `HEX ${hex}`;
-    const rgbLabel = document.createElement("span");
-    rgbLabel.textContent = `RGB ${rgb.join(", ")}`;
-    values.append(hexLabel, rgbLabel);
-    button.append(dot, values);
-    button.addEventListener("click", async () => {
-      try {
-        await navigator.clipboard.writeText(hex);
-        status.textContent = document.documentElement.lang === "zh-CN" ? `已复制 ${hex}` : `Copied ${hex}`;
-      } catch (_) {
-        status.textContent = hex;
-      }
+  paletteGroups.forEach((group) => {
+    const groupElement = document.createElement("div");
+    groupElement.className = "palette-group";
+    group.forEach((row) => {
+      const rowElement = document.createElement("div");
+      rowElement.className = "palette-color-row";
+      row.forEach((hex) => {
+        const rgb = hex.slice(1).match(/.{2}/g).map((part) => parseInt(part, 16));
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "palette-swatch";
+        button.style.setProperty("--swatch", hex);
+        button.setAttribute("aria-label", `Copy ${hex}, RGB ${rgb.join(", ")}`);
+        const dot = document.createElement("span");
+        dot.className = "palette-dot";
+        dot.setAttribute("aria-hidden", "true");
+        const values = document.createElement("span");
+        values.className = "palette-values";
+        const hexLabel = document.createElement("span");
+        hexLabel.textContent = `HEX ${hex}`;
+        const rgbLabel = document.createElement("span");
+        rgbLabel.textContent = `RGB ${rgb.join(", ")}`;
+        values.append(hexLabel, rgbLabel);
+        button.append(dot, values);
+        button.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(hex);
+            status.textContent = document.documentElement.lang === "zh-CN" ? `已复制 ${hex}` : `Copied ${hex}`;
+          } catch (_) {
+            status.textContent = hex;
+          }
+        });
+        rowElement.append(button);
+      });
+      groupElement.append(rowElement);
     });
-    paletteGrid.append(button);
+    paletteGrid.append(groupElement);
   });
 }
