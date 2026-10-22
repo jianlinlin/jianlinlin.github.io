@@ -1,5 +1,5 @@
-const menuButton = document.querySelector(".menu-toggle");
-const navigation = document.querySelector(".primary-nav");
+const menuButton = document.querySelector(".site-nav .menu-icon");
+const navigation = document.querySelector(".site-nav .trigger");
 
 if (menuButton && navigation) {
   menuButton.addEventListener("click", () => {
@@ -16,5 +16,22 @@ if (menuButton && navigation) {
   });
 }
 
-const year = document.querySelector("#year");
-if (year) year.textContent = new Date().getFullYear();
+const publications = [...document.querySelectorAll(".pub")];
+document.querySelector("#show-selected-btn")?.addEventListener("click", () => {
+  publications.forEach((publication) => {
+    publication.hidden = publication.dataset.selected !== "true";
+  });
+});
+document.querySelector("#show-all-btn")?.addEventListener("click", () => {
+  publications.forEach((publication) => {
+    publication.hidden = false;
+  });
+});
+
+const backToTop = document.querySelector(".back-to-top");
+if (backToTop) {
+  window.addEventListener("scroll", () => {
+    backToTop.style.display = window.scrollY > 220 ? "block" : "none";
+  });
+  backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+}
