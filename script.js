@@ -117,6 +117,14 @@ const englishToChinese = {
   "Reserved for the account name, introduction, and QR code. Details can be added when you share them.": "此处预留公众号名称、简介和二维码，后续可补充具体信息。",
   "Email:": "邮箱：",
   "Personal academic website": "个人学术网站",
+  "Resources": "资源",
+  "Data Resources": "数据资源",
+  "Curated datasets and reusable research resources will be collected here.": "这里将整理可复用的数据集与科研资源。",
+  "Data Platforms": "数据平台",
+  "Cross-national studies and harmonized aging data": "跨国家老龄化研究与协调数据",
+  "Discover and access research datasets": "检索并申请访问研究数据",
+  "Research Color Palette": "科研配色",
+  "Colors transcribed from the supplied palette image. Select a swatch to copy its HEX value.": "根据你提供的配色图片整理。点击色卡可复制 HEX 色值。",
   "Top": "返回顶部"
 };
 
@@ -154,5 +162,51 @@ if (languageToggle) {
   if (currentLanguage === "zh") setLanguage("zh");
   languageToggle.addEventListener("click", () => {
     setLanguage(document.documentElement.lang === "zh-CN" ? "en" : "zh");
+  });
+}
+
+const paletteHex = [
+  "#E7CACC", "#B8CAE7", "#CE4844", "#2A73BA", "#63CBA1", "#9E96DC", "#569FD8", "#62B7A0",
+  "#EA9A99", "#8CC2E0", "#EEADAB", "#8DB18D", "#A5C7E0", "#E8E0AD", "#DADADA", "#3F83A4",
+  "#6BAED8", "#EDC3A1", "#A53E34", "#009391", "#EFB47A", "#B3A9ED", "#C4E3F2", "#F1BFDA",
+  "#DBDBDB", "#525252", "#F6847A", "#F8B583", "#4194C6", "#CA87A7", "#80A0CB", "#F6E7C6",
+  "#CFDBCC", "#ACBFE0", "#D7B3D5", "#F4C6C7", "#7ABBCF", "#C3C9C9", "#C4C2C3", "#D18B96",
+  "#7CD3A3", "#ADDBE1", "#FADBAD", "#616566", "#6A9DB9", "#F8C7C5", "#B0D5DB", "#ACC3E5",
+  "#D7DADB", "#C05F60", "#8A8A8A", "#ED708C", "#A1D1B4", "#E5C9B9"
+];
+
+const paletteGrid = document.querySelector("#palette-grid");
+if (paletteGrid) {
+  const status = document.createElement("div");
+  status.className = "palette-status";
+  status.setAttribute("aria-live", "polite");
+  paletteGrid.after(status);
+  paletteHex.forEach((hex) => {
+    const rgb = hex.slice(1).match(/.{2}/g).map((part) => parseInt(part, 16));
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "palette-swatch";
+    button.style.setProperty("--swatch", hex);
+    button.setAttribute("aria-label", `Copy ${hex}, RGB ${rgb.join(", ")}`);
+    const dot = document.createElement("span");
+    dot.className = "palette-dot";
+    dot.setAttribute("aria-hidden", "true");
+    const values = document.createElement("span");
+    values.className = "palette-values";
+    const hexLabel = document.createElement("span");
+    hexLabel.textContent = `HEX ${hex}`;
+    const rgbLabel = document.createElement("span");
+    rgbLabel.textContent = `RGB ${rgb.join(", ")}`;
+    values.append(hexLabel, rgbLabel);
+    button.append(dot, values);
+    button.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(hex);
+        status.textContent = document.documentElement.lang === "zh-CN" ? `已复制 ${hex}` : `Copied ${hex}`;
+      } catch (_) {
+        status.textContent = hex;
+      }
+    });
+    paletteGrid.append(button);
   });
 }
