@@ -25,8 +25,8 @@
           <a class="page-link" href="#writing"><b>Blog &amp; Research Notes</b></a>
           <a class="page-link" href="#awards"><b>Honors &amp; Awards</b></a>
           <a class="page-link" href="#academicservices"><b>Academic Services</b></a>
-          <button class="language-toggle" id="language-toggle" type="button" aria-label="Switch language">中文</button>
         </div>
+        <button class="language-toggle" id="language-toggle" type="button" aria-label="Switch language">中文</button>
       </nav>
     </div>
   </header>
@@ -181,8 +181,10 @@
         </div>
       </section>
 
-      <section id="resources" class="bio">
-        <h1 class="md-heading text-left"><i class="fa fa-database" aria-hidden="true"></i> Resources</h1>
+      <section id="resources" class="bio resources-section">
+        <details id="resources-details" class="resource-details">
+        <summary class="md-heading text-left"><i class="fa fa-database" aria-hidden="true"></i> Resources</summary>
+        <div class="resources-content">
         <div class="resource-section">
           <h2><i class="fa fa-folder-open" aria-hidden="true"></i> Data Resources</h2>
           <p>Curated datasets and reusable research resources will be collected here.</p>
@@ -200,6 +202,8 @@
           <p>Colors transcribed from the supplied palette image. Select a swatch to copy its HEX value.</p>
           <div id="palette-grid" class="palette-grid" aria-live="polite"></div>
         </div>
+        </div>
+        </details>
       </section>
 
       <section id="wechat-account" class="bio">
