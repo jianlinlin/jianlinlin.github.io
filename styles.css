@@ -16,6 +16,12 @@
 .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 .bio-columns { display:grid; grid-template-columns:1fr 1fr; gap:24px; clear:both; }
 .bio-column { width:auto!important; float:none!important; }
+.education-school-heading { display:flex; align-items:center; gap:9px; min-height:34px; margin:12px 0 4px; }
+.education-school-heading b, .education-school-name { display:block; }
+.education-school-logo { display:block; width:30px; height:34px; object-fit:contain; }
+.education-logo-link { display:inline-flex; flex:0 0 30px; align-items:center; justify-content:center; }
+.education-details { margin-top:3px; }
+.education-supervisor { display:block; margin-top:3px; }
 .news-list { list-style:none; margin-left:0; }
 .news-list li.indented { padding-left:105px; }
 .inline-button { border:0; padding:0; background:none; color:#2a7ae2; font:inherit; cursor:pointer; }
