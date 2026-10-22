@@ -118,6 +118,7 @@ const englishToChinese = {
   "Teaching Assistant, Statistics, Macao Polytechnic University": "澳门理工大学统计学课程助教",
   "Journal Reviewer": "期刊审稿人",
   "WeChat Official Account": "个人公众号",
+  "WeChat Official Account QR Code": "个人公众号二维码",
   "Personal public account": "个人公众号",
   "Reserved for the account name, introduction, and QR code. Details can be added when you share them.": "此处预留公众号名称、简介和二维码，后续可补充具体信息。",
   "Email:": "邮箱：",
