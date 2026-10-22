@@ -72,3 +72,56 @@
   .palette-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .language-toggle { margin-left:5px; }
 }
+
+/* Keep the profile card inside the campus image and make the header adaptive. */
+.site-header .wrapper { max-width:1500px; width:calc(100% - 36px); }
+.site-nav { width:100%; justify-content:flex-end; gap:14px; }
+.site-nav .trigger { display:flex; align-items:center; justify-content:flex-end; flex-wrap:nowrap; gap:clamp(8px,1.25vw,20px); white-space:nowrap; }
+.site-nav .trigger .page-link { margin:0!important; white-space:nowrap; }
+.site-nav .language-toggle { flex:0 0 auto; margin:0; white-space:nowrap; }
+.cover { height:auto; min-height:0; max-width:100%; padding:34px 18px; box-sizing:border-box; background-position:center top; }
+.profile-wrapper { top:0; width:min(1120px,100%); margin:0 auto; padding:20px 28px; display:grid; grid-template-columns:220px minmax(0,1fr); align-items:center; gap:24px; box-sizing:border-box; }
+.profile-col { float:none!important; width:auto!important; margin:0; text-align:center; }
+.profile-col-1, .profile-col-2 { width:auto!important; }
+.circle-img { display:block; width:min(100%,190px); height:auto; }
+.social-media { display:flex; flex-wrap:nowrap; justify-content:center; align-items:center; gap:8px; margin-top:14px; white-space:nowrap; }
+.social-media .icon-button { flex:0 0 44px; width:44px; height:44px; margin:0; font-size:23px; line-height:44px; }
+.social-media .icon-button i { width:44px; height:44px; line-height:44px; }
+.social-media .icon-button:hover span { width:44px; height:44px; margin:-22px; }
+.resources-section { scroll-margin-top:18px; }
+.resource-details > summary { cursor:pointer; list-style:none; }
+.resource-details > summary::-webkit-details-marker { display:none; }
+.resources-section summary.md-heading:after { content:"+"; float:right; color:#9b3022; font-weight:400; }
+.resources-section details[open] summary.md-heading:after { content:"−"; }
+.palette-grid { display:flex; flex-direction:column; gap:23px; }
+.palette-group { display:flex; flex-direction:column; gap:8px; }
+.palette-color-row { display:flex; justify-content:center; gap:10px; }
+.palette-swatch { flex:1 1 0; max-width:250px; min-width:0; }
+.palette-values { white-space:nowrap; }
+
+@media(max-width:1000px) {
+  .site-nav { position:relative; top:auto; right:auto; justify-content:flex-end; background:transparent; border:0; text-align:right; }
+  .site-nav .menu-icon { display:flex; float:none; width:40px; height:40px; align-items:center; justify-content:center; padding:0; line-height:1; }
+  .site-nav .trigger { display:none; position:absolute; top:calc(100% + 4px); right:0; z-index:20; min-width:230px; padding:8px; flex-direction:column; align-items:stretch; gap:0; border:1px solid #e3e3e3; border-radius:5px; background:#fff; box-shadow:0 5px 18px rgba(0,0,0,.12); }
+  .site-nav .trigger.open { display:flex; }
+  .site-nav:hover .trigger:not(.open) { display:none; }
+  .site-nav .trigger .page-link { display:block; padding:8px 10px; text-align:left; }
+  .site-nav .language-toggle { margin-left:0; }
+}
+@media(max-width:760px) {
+  .cover { padding:22px 12px; }
+  .profile-wrapper { grid-template-columns:minmax(0,1fr); gap:12px; padding:18px 15px; }
+  .circle-img { width:132px; }
+  .social-media { gap:5px; margin-top:10px; }
+  .social-media .icon-button { flex-basis:40px; width:40px; height:40px; font-size:21px; line-height:40px; }
+  .social-media .icon-button i { width:40px; height:40px; line-height:40px; }
+  .social-media .icon-button:hover span { width:40px; height:40px; margin:-20px; }
+  .palette-color-row { gap:6px; }
+  .palette-swatch { padding:7px 5px; gap:6px; }
+  .palette-dot { flex-basis:28px; width:28px; height:28px; }
+  .palette-values { font-size:10px; }
+}
+@media(max-width:560px) {
+  .palette-color-row { flex-wrap:wrap; }
+  .palette-swatch { flex:1 1 calc(50% - 6px); max-width:none; }
+}
