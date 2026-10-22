@@ -15,6 +15,8 @@ A direct adaptation of the page structure and stylesheet in [Jun-CEN/Jun-CEN.git
 
 In the repository settings, open **Pages**, choose **Deploy from a branch**, select `main` and the `/ (root)` folder, then save. The repository is now named `jianlinlin.github.io`, so GitHub Pages will serve it at `https://jianlinlin.github.io/` after the first deployment.
 
+The profile-cover background uses an image hosted on the official Macao Polytechnic University website. Honors and education dates were transcribed from the resume image supplied for this update. Academic Services remains a labeled placeholder until specific service roles are provided; the WeChat Official Account section is reserved for an account link or QR code.
+
 ## Updating content
 
 Edit the relevant sections in `index.html`. To add a publication, duplicate one `.pub` article and update its year, title, journal, and link. The Blog and Research Notes landing pages use the same page-template styles.
