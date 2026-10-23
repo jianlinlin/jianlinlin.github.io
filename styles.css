@@ -1,8 +1,10 @@
 /* Small additions for Jianlin Lin's version of the reference page template. */
 .shallow-bg {
   background-image: linear-gradient(rgba(246, 249, 251, .16), rgba(246, 249, 251, .16)), url("assets/macau-landmark-hero-optimized.jpg");
-  background-position: center 48%;
-  background-size: cover;
+  background-position: center center;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-color: #c6d9e7;
 }
 .site-nav .menu-icon {
   border: 0;
@@ -20,10 +22,15 @@
 .education-school-heading b, .education-school-name { display:block; }
 .education-school-logo { display:block; width:30px; height:34px; object-fit:contain; }
 .education-logo-link { display:inline-flex; flex:0 0 30px; align-items:center; justify-content:center; }
+.education-logo-crop { display:block; flex:0 0 30px; width:30px; height:30px; overflow:hidden; position:relative; }
+.hmu-logo-crop .education-school-logo { position:absolute; top:0; left:50%; width:49.4px; max-width:none; height:auto; transform:translateX(-50%); }
 .education-details { margin-top:3px; }
 .education-supervisor { display:block; margin-top:3px; }
 .news-list { list-style:none; margin-left:0; }
-.news-list li.indented { padding-left:105px; }
+.news-item { display:grid; grid-template-columns:18px 78px minmax(0,1fr); align-items:start; gap:10px; margin:10px 0; line-height:1.6; }
+.news-icon { margin-top:4px; color:#9b3022; text-align:center; }
+.news-date { color:#777; font-size:13px; white-space:nowrap; }
+.news-text { min-width:0; }
 .inline-button { border:0; padding:0; background:none; color:#2a7ae2; font:inherit; cursor:pointer; }
 .inline-button:hover { color:#111; text-decoration:underline; }
 .publication-art { width:280px; height:130px; border:1px solid #9b3022; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:7px; color:#fff; background:#16415d; font-size:22px; font-weight:700; letter-spacing:.08em; line-height:1.1; }
@@ -33,6 +40,13 @@
 .art-methods { background:linear-gradient(135deg,#773b2d,#c1795a); }
 .art-health { background:linear-gradient(135deg,#315648,#84a18a); }
 .publication-more { text-align:center; margin:14px auto 25px; }
+.publication-tags { display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-top:8px; }
+.authorship-badge, .quartile-badge { display:inline-flex; align-items:center; border:1px solid transparent; border-radius:12px; padding:3px 8px; font-size:11px; font-weight:700; line-height:1.35; text-decoration:none; }
+.authorship-badge { border-color:#ead5d1; color:#7b3027; background:#f8efed; }
+.quartile-badge { border-color:#d2e0eb; color:#265078; background:#eef5f9; }
+.quartile-badge:hover { border-color:#9bb8ce; color:#173d5e; background:#e3eef5; }
+.publication-note { margin:8px 0 16px; color:#777; font-size:12px; line-height:1.5; }
+.publication-note .fa { margin-right:5px; color:#9b3022; }
 .writing-panel { display:flex; gap:23px; align-items:flex-start; padding:22px; border:1px solid #d3d3d3; background:#fff; }
 .writing-icon { flex:0 0 52px; height:52px; display:grid; place-items:center; border-radius:50%; background:#f2e9e5; color:#9b3022; font-size:22px; }
 .writing-panel h2 { font-size:20px; margin:1px 0 8px; }
@@ -49,6 +63,9 @@
 .service-list .fa { color:#9b3022; margin-right:7px; }
 .service-date { display:block; color:#777; font-size:13px; margin-bottom:3px; }
 .timeline-date .fa, .timeline-title > .fa { color:#9b3022; margin-right:6px; }
+.experience-title { display:flex; align-items:center; gap:7px; }
+.experience-logo { flex:0 0 38px; width:38px; height:38px; padding:2px; border-radius:50%; background:#fff; object-fit:contain; box-sizing:border-box; }
+.experience-title .fa { color:#9b3022; margin-right:5px; }
 #my-email a { color:inherit; }
 .resource-section { margin:20px 0 30px; }
 .resource-section h2 { margin:0 0 12px; font-size:21px; }
@@ -155,7 +172,7 @@
 .site-nav .trigger { display:flex; align-items:center; justify-content:flex-end; flex-wrap:nowrap; gap:clamp(8px,1.25vw,20px); white-space:nowrap; }
 .site-nav .trigger .page-link { margin:0!important; white-space:nowrap; }
 .site-nav .language-toggle { flex:0 0 auto; margin:0; white-space:nowrap; }
-.cover { height:auto; min-height:0; max-width:100%; padding:34px 18px; box-sizing:border-box; background-position:center top; }
+.cover { height:auto; min-height:33.333vw; max-width:100%; padding:34px 18px; display:flex; align-items:center; justify-content:center; box-sizing:border-box; background-position:center center; }
 .profile-wrapper { top:0; width:min(760px,100%); margin:0 auto; padding:18px 22px; display:grid; grid-template-columns:150px minmax(0,1fr); align-items:center; gap:20px; box-sizing:border-box; }
 .profile-col { float:none!important; width:auto!important; margin:0; text-align:center; }
 .profile-col-1, .profile-col-2 { width:auto!important; }
@@ -194,7 +211,8 @@
   .site-nav .language-toggle { margin-left:0; }
 }
 @media(max-width:760px) {
-  .cover { padding:22px 12px; }
+  .cover { min-height:0; padding:22px 12px; background-size:cover; }
+  .shallow-bg { background-size:auto 100%; background-position:center center; }
   .profile-wrapper { grid-template-columns:minmax(0,1fr); gap:12px; padding:18px 15px; }
   .circle-img { width:132px; }
   .social-media { gap:5px; margin-top:10px; }
