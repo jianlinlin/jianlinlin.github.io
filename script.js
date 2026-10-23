@@ -81,7 +81,7 @@ const englishToChinese = {
   "A comparative causal-inference analysis of dietary patterns and mortality appeared in": "关于膳食模式与死亡率的比较因果推断分析发表于",
   "was accepted for publication in": "被接收并发表于",
   ". I am a co-first author.": "。我是共同第一作者。",
-  "Oct 2026": "2026年10月",
+  "2026": "2026年",
   "Feb 2026": "2026年2月",
   "Jan 2026": "2026年1月",
   "Sep 2025": "2025年9月",
