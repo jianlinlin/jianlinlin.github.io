@@ -41,6 +41,54 @@ if (backToTop) {
   backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 }
 
+// Lightweight front-end gate for resource pages. It is an interface barrier only;
+// static site content remains publicly available in the page source.
+const resourcePasswordGate = document.querySelector("#resource-password-gate");
+if (resourcePasswordGate) {
+  const resourcePasswordForm = document.querySelector("#resource-password-form");
+  const resourcePasswordInput = document.querySelector("#resource-password-input");
+  const resourcePasswordMessage = document.querySelector("#resource-password-message");
+  const protectedPageElements = [...document.body.children].filter((element) => element !== resourcePasswordGate);
+  const expectedPasswordDigest = "f59291f7424bdd0a8f8aaaaf6562106247a06abae8b12b52068229de156cff20";
+
+  const unlockResourcePage = () => {
+    resourcePasswordGate.hidden = true;
+    document.body.classList.remove("resource-locked");
+    protectedPageElements.forEach((element) => { element.inert = false; });
+  };
+
+  let alreadyUnlocked = false;
+  try { alreadyUnlocked = sessionStorage.getItem("resource-pages-unlocked") === "true"; } catch (_) {}
+  if (alreadyUnlocked) {
+    unlockResourcePage();
+  } else {
+    document.body.classList.add("resource-locked");
+    protectedPageElements.forEach((element) => { element.inert = true; });
+    resourcePasswordInput?.focus();
+  }
+
+  resourcePasswordForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!resourcePasswordInput || !resourcePasswordMessage) return;
+    resourcePasswordMessage.hidden = true;
+    try {
+      const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(resourcePasswordInput.value));
+      const enteredDigest = [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+      if (enteredDigest === expectedPasswordDigest) {
+        try { sessionStorage.setItem("resource-pages-unlocked", "true"); } catch (_) {}
+        unlockResourcePage();
+      } else {
+        resourcePasswordInput.value = "";
+        resourcePasswordMessage.hidden = false;
+        resourcePasswordInput.focus();
+      }
+    } catch (_) {
+      resourcePasswordMessage.textContent = "Password check is unavailable in this browser.";
+      resourcePasswordMessage.hidden = false;
+    }
+  });
+}
+
 // Keep the page bilingual without duplicating its layout or breaking inline links.
 const englishToChinese = {
   "Toggle navigation": "展开导航",
@@ -227,6 +275,11 @@ const englishToChinese = {
   "Longitudinal trial data": "纵向试验数据",
   "Scientific proposal required": "需提交科研方案",
   "Research Color Palette": "科研配色",
+  "Enter the password to view the resource pages.": "请输入密码以查看资源页面。",
+  "Access password": "访问密码",
+  "Unlock resources": "进入资源页面",
+  "Incorrect password. Try again.": "密码错误，请重试。",
+  "Password check is unavailable in this browser.": "当前浏览器无法执行密码验证。",
   "Colors transcribed from the supplied palette image. Select a swatch to copy its HEX value.": "根据你提供的配色图片整理。点击色卡可复制 HEX 色值。",
   "Top": "返回顶部"
 };
