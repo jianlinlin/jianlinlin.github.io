@@ -57,15 +57,9 @@ if (resourcePasswordGate) {
     protectedPageElements.forEach((element) => { element.inert = false; });
   };
 
-  let alreadyUnlocked = false;
-  try { alreadyUnlocked = sessionStorage.getItem("resource-pages-unlocked") === "true"; } catch (_) {}
-  if (alreadyUnlocked) {
-    unlockResourcePage();
-  } else {
-    document.body.classList.add("resource-locked");
-    protectedPageElements.forEach((element) => { element.inert = true; });
-    resourcePasswordInput?.focus();
-  }
+  document.body.classList.add("resource-locked");
+  protectedPageElements.forEach((element) => { element.inert = true; });
+  resourcePasswordInput?.focus();
 
   resourcePasswordForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -75,7 +69,6 @@ if (resourcePasswordGate) {
       const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(resourcePasswordInput.value));
       const enteredDigest = [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
       if (enteredDigest === expectedPasswordDigest) {
-        try { sessionStorage.setItem("resource-pages-unlocked", "true"); } catch (_) {}
         unlockResourcePage();
       } else {
         resourcePasswordInput.value = "";
