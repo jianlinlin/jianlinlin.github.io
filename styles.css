@@ -96,6 +96,7 @@
 .resource-password-panel button:hover { background:#7e261c; }
 .resource-password-message { margin:1px 0 0; color:#a12720; font-size:13px; }
 body.resource-locked { overflow:hidden; }
+body.resource-locked > :not(#resource-password-gate) { visibility:hidden; }
 .platform-card:hover { border-color:#9b3022; box-shadow:0 2px 8px rgba(0,0,0,.08); }
 .palette-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:9px; }
 .palette-swatch { display:flex; align-items:center; gap:11px; min-width:0; padding:9px; border:1px solid #dedede; border-radius:3px; background:#fff; color:#333; text-align:left; cursor:pointer; }
