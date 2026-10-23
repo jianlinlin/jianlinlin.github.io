@@ -62,6 +62,8 @@
 .service-list li { padding:8px 0; }
 .service-list .fa { color:#9b3022; margin-right:7px; }
 .service-date { display:block; color:#777; font-size:13px; margin-bottom:3px; }
+.timeline-date { display:flex; align-items:center; gap:8px; }
+.timeline-date .experience-logo { flex-basis:34px; width:34px; height:34px; }
 .experience-title { display:flex; align-items:center; gap:7px; }
 .experience-logo { flex:0 0 38px; width:38px; height:38px; padding:2px; border-radius:50%; background:#fff; object-fit:contain; box-sizing:border-box; }
 #my-email a { color:inherit; }
