@@ -268,13 +268,75 @@ body.resource-locked > :not(#resource-password-gate) { visibility:hidden; }
 .site-nav .resource-subnav .page-link { display:block; margin:0!important; padding:9px 12px; border-radius:3px; white-space:nowrap; }
 .site-nav .resource-subnav .page-link:hover { background:#f5f5f5; }
 
-.resource-card-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:24px 0 30px; }
+.resource-card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin:24px 0 30px; }
 .resource-card { display:flex; flex-direction:column; align-items:flex-start; gap:10px; min-height:190px; padding:22px; border:1px solid #d3d3d3; background:#fff; text-decoration:none; }
 .resource-card > .fa { color:#9b3022; font-size:25px; }
 .resource-card b { color:#222; font-size:19px; font-weight:500; }
 .resource-card span { color:#666; font-size:14px; }
 .resource-card em { margin-top:auto; color:#2a7ae2; font-size:13px; font-style:normal; font-weight:600; }
 .resource-card:hover { border-color:#9b3022; box-shadow:0 3px 12px rgba(0,0,0,.08); text-decoration:none; }
+
+/* Academic writing lessons are public, searchable, and organized as separate pages. */
+.academic-writing-page { max-width:1080px; }
+.academic-writing-intro { max-width:760px; color:#5c6670; }
+.lesson-browser { margin:25px 0 34px; }
+.lesson-filters { display:grid; grid-template-columns:minmax(220px,1fr) minmax(180px,.4fr); gap:12px; margin:18px 0; }
+.lesson-filters label { display:grid; gap:6px; color:#45515c; font-size:13px; font-weight:600; }
+.lesson-filters input,.lesson-filters select,.sentence-input,.translation-answer { width:100%; box-sizing:border-box; border:1px solid #cbd2d8; border-radius:4px; padding:10px 11px; background:#fff; color:#222; font:inherit; }
+.lesson-filters input:focus,.lesson-filters select:focus,.sentence-input:focus,.translation-answer:focus { outline:2px solid rgba(49,130,206,.22); border-color:#3182ce; }
+.lesson-count { color:#68737c; font-size:13px; }
+.lesson-card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:16px; }
+.lesson-card { display:flex; flex-direction:column; align-items:flex-start; gap:10px; min-height:225px; padding:22px; border:1px solid #d3d3d3; background:#fff; color:inherit; text-decoration:none; transition:border-color .18s ease,box-shadow .18s ease; }
+.lesson-card:hover { border-color:#9b3022; box-shadow:0 4px 16px rgba(0,0,0,.08); text-decoration:none; }
+.lesson-card-icon { color:#9b3022; font-size:24px; }
+.lesson-card h2 { margin:0; color:#202a32; font-size:20px; line-height:1.4; }
+.lesson-card p { margin:0; color:#5d6871; font-size:14px; line-height:1.6; }
+.lesson-tags,.lesson-meta { display:flex; flex-wrap:wrap; gap:7px; color:#67727b; font-size:12px; }
+.lesson-tag { padding:3px 8px; border-radius:12px; background:#f3efed; color:#78352d; }
+.lesson-open { margin-top:auto; color:#2a7ae2; font-size:13px; font-weight:600; }
+.lesson-empty { padding:18px; border:1px dashed #cbd2d8; color:#64707a; text-align:center; }
+.lesson-page { max-width:900px; }
+.lesson-breadcrumb { margin:0 0 12px; color:#69737b; font-size:13px; }
+.lesson-title { margin:5px 0 8px; color:#1d2a35; font-size:34px; line-height:1.25; }
+.lesson-subtitle { max-width:760px; color:#64717a; font-size:16px; line-height:1.65; }
+.lesson-byline { display:flex; flex-wrap:wrap; gap:8px 18px; margin:14px 0 24px; color:#747e86; font-size:13px; }
+.lesson-section { margin:24px 0; padding:22px; border:1px solid #dce1e5; border-radius:6px; background:#fff; }
+.lesson-section > h2 { margin:0 0 14px; color:#203344; font-size:22px; }
+.lesson-section > h2 .fa { margin-right:7px; color:#9b3022; }
+.source-note { margin:0 0 14px; padding:12px 14px; border-left:3px solid #b66c45; background:#faf5f1; color:#5f5249; font-size:13px; line-height:1.6; }
+.source-excerpt { margin:12px 0 8px; padding:14px 16px; border-left:3px solid #9b3022; background:#f8f8f7; color:#28343c; font-size:17px; line-height:1.65; }
+.source-translation { margin:0 0 13px; color:#5e6870; font-size:14px; line-height:1.6; }
+.source-link { display:inline-flex; align-items:center; gap:7px; font-size:13px; font-weight:600; }
+.reading-text { margin:0; color:#29343b; font-size:17px; line-height:1.9; }
+.reading-text p { margin:0 0 12px; }
+.reading-pair { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.reading-column { min-width:0; padding:16px; border-radius:5px; background:#f8fafb; }
+.reading-column h3 { margin:0 0 10px; color:#344f62; font-size:15px; }
+.reading-column p { margin:0; color:#2d383e; font-size:15px; line-height:1.9; }
+.vocabulary-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+.vocabulary-card { padding:15px; border:1px solid #e1e5e8; border-radius:5px; background:#fcfcfb; }
+.vocabulary-card h3 { margin:0 0 4px; color:#223847; font-size:17px; }
+.vocabulary-card h3 span { margin-left:5px; color:#78828a; font-size:12px; font-weight:400; }
+.vocabulary-meaning,.vocabulary-example { margin:4px 0; color:#59646c; font-size:13px; line-height:1.6; }
+.vocabulary-example em { color:#293943; }
+.sentence-prompt { display:block; margin-top:9px; color:#5f6870; font-size:12px; }
+.sentence-input { min-height:58px; margin-top:5px; resize:vertical; font-size:13px; }
+.practice-list { display:grid; gap:14px; margin:0; padding:0; list-style:none; counter-reset:practice-item; }
+.practice-item { display:grid; grid-template-columns:28px minmax(0,1fr); gap:9px; align-items:start; }
+.practice-item::before { counter-increment:practice-item; content:counter(practice-item); display:grid; place-items:center; width:25px; height:25px; border-radius:50%; background:#f3efed; color:#81362b; font-size:12px; font-weight:700; }
+.cloze-sentence,.translation-prompt { margin:1px 0 7px; color:#364149; font-size:14px; line-height:1.75; }
+.cloze-input { display:inline-block; width:min(150px,35vw); margin:0 3px; padding:4px 6px; border:1px solid #cbd2d8; border-radius:3px; font:inherit; }
+.cloze-input[aria-invalid="true"] { border-color:#bb4337; background:#fff5f4; }
+.cloze-input[aria-invalid="false"] { border-color:#3e8b66; background:#f3fbf6; }
+.practice-actions { display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:16px; }
+.practice-button { border:0; border-radius:4px; padding:9px 14px; background:#16415d; color:#fff; font:inherit; font-size:13px; font-weight:600; cursor:pointer; }
+.practice-button:hover { background:#102f44; }
+.practice-result { color:#48545d; font-size:13px; }
+.answer-key { margin-top:14px; padding-top:12px; border-top:1px solid #e2e6e9; color:#56626b; font-size:13px; line-height:1.7; }
+.answer-key summary { color:#245985; cursor:pointer; font-weight:600; }
+.translation-card { padding:13px 14px; border:1px solid #e1e5e8; border-radius:5px; background:#fcfcfb; }
+.translation-answer { min-height:74px; resize:vertical; font-size:13px; line-height:1.6; }
+.lesson-footnote { color:#758089; font-size:12px; line-height:1.6; }
 
 /* Use one matching footer on the homepage and every subpage. */
 .footer-col-wrapper { display:grid; grid-template-columns:minmax(180px,1fr) minmax(220px,auto) 150px minmax(180px,1fr); align-items:center; gap:24px; margin:0; }
@@ -304,6 +366,9 @@ body.resource-locked > :not(#resource-password-gate) { visibility:hidden; }
   .site-nav .resource-subnav .page-link { padding:7px 10px; }
   .resource-card-grid { grid-template-columns:1fr; }
   .resource-card { min-height:0; }
+  .lesson-filters,.reading-pair,.vocabulary-grid { grid-template-columns:1fr; }
+  .lesson-title { font-size:29px; }
+  .lesson-section { padding:17px; }
   .footer-col-wrapper { grid-template-columns:minmax(0,1fr) minmax(220px,1.2fr); row-gap:22px; }
   .footer-col-2 { grid-column:2; grid-row:1; }
   .footer-col-3 { grid-column:1; grid-row:2; }

@@ -268,6 +268,8 @@ const englishToChinese = {
   "Longitudinal trial data": "纵向试验数据",
   "Scientific proposal required": "需提交科研方案",
   "Research Color Palette": "科研配色",
+  "Academic Writing": "学术写作",
+  "Reading, vocabulary, sentence writing, and translation practice.": "阅读、词汇、造句与翻译练习。",
   "Enter the password to view the resource pages.": "请输入密码以查看资源页面。",
   "Access password": "访问密码",
   "Unlock resources": "进入资源页面",
