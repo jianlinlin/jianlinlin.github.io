@@ -724,7 +724,6 @@
       if (!criterion.terms.some((term) => normalized.includes(term.toLocaleLowerCase()))) setWeakPoint(criterion.label);
     });
     const previous = state.translations[task.id] || {};
-    const normalized = answer.toLocaleLowerCase();
     const coverage = task.criteria.filter((criterion) => criterion.terms.some((term) => normalized.includes(term.toLocaleLowerCase()))).length;
     const attempts = previous.attempts || [];
     attempts.push({ answer, coverage, total: task.criteria.length, at: Date.now(), kind: previous.reviewing ? "delayed" : "practice" });
