@@ -8,7 +8,7 @@
   const dayNumber = Number(dayMatch?.[1]);
   const paper = paperLibrary.find((item) => item.id === paperId);
   const allLessons = dailyLessons[paperId] || [];
-  const lessonIndex = dayNumber > 7 ? dayNumber - 8 : dayNumber - 1;
+  const lessonIndex = paperId === "iage" ? dayNumber - 1 : (dayNumber > 7 ? dayNumber - 8 : dayNumber - 1);
   const lesson = allLessons[lessonIndex];
   const root = document.querySelector("#lesson-content");
   const navs = [...document.querySelectorAll(".lesson-navigation")];
@@ -100,10 +100,12 @@
   };
   renderNavigation();
 
-  const phase = dayNumber <= 7 ? "首次精读 · 先读原文再做练习" : "间隔复习 · 先回忆，再回原文核对";
+  const phase = paperId === "iage"
+    ? (dayNumber <= 7 ? "第一周 · 原文分节精读" : "第二周 · 结果、机制与全文综合")
+    : (dayNumber <= 7 ? "首次精读 · 先读原文再做练习" : "间隔复习 · 先回忆，再回原文核对");
   root.append(el("p", "lesson-phase", phase));
   const readingCard = el("section", "lesson-card lesson-reading-card");
-  readingCard.append(el("h2", "", "原文精读"), el("p", "", "当天任务覆盖本节全文。读完该部分的所有段落；每遇到一句就把原句和你的中文翻译记入本页的逐句训练区。第二周先遮住原文回忆，再对照核验。"));
+  readingCard.append(el("h2", "", "原文精读与逐句翻译"), el("p", "", "先通过上方链接打开论文全文，再读完今天指定的全部段落。每读一句，就在本页下方录入原句并写出中文翻译；保存后可逐句回看。题目按原文各章节的研究内容编写，参考答案是训练用改写，不是论文原句的翻译。"));
   readingCard.append(el("p", "lesson-reading-scope", lesson.scope));
   root.append(readingCard);
 
@@ -116,7 +118,7 @@
     const card = el("article", "lesson-word-card");
     card.append(el("h3", "", word.term + " · " + word.pos));
     card.append(el("p", "", word.meaning), el("p", "", "常见搭配：" + word.collocation), el("p", "lesson-word-example", "例句：" + word.example));
-    const label = el("label", "lesson-field-label", lesson.sentence.prompt);
+    const label = el("label", "lesson-field-label", word.practice?.prompt || lesson.sentence.prompt);
     const makeSentence = document.createElement("textarea");
     makeSentence.rows = 2;
     makeSentence.placeholder = "自己造一句学术英语。";
@@ -126,40 +128,55 @@
       writeState();
     });
     label.append(makeSentence);
-    card.append(label, reveal("查看造句参考", lesson.sentence.model));
+    card.append(label, reveal("查看造句参考", word.practice?.model || lesson.sentence.model));
     vocabularyGrid.append(card);
   });
   vocabulary.append(vocabularyGrid);
   root.append(vocabulary);
 
   const cloze = el("section", "lesson-card lesson-exercise-card");
-  cloze.append(el("h2", "", "词汇填空（原创例句）"), el("p", "", lesson.cloze.prompt));
-  const clozeInput = document.createElement("input");
-  clozeInput.type = "text";
-  clozeInput.className = "lesson-answer-input";
-  clozeInput.placeholder = lesson.cloze.hint;
-  clozeInput.value = saved("cloze").answer || "";
-  clozeInput.addEventListener("input", () => saveField("cloze", clozeInput.value));
-  const clozeResult = el("p", "lesson-feedback", saved("cloze").checked ? (saved("cloze").correct ? "上次核对正确。" : "上次答案需要复习。") : "");
-  const checkCloze = el("button", "practice-button", "核对答案");
-  checkCloze.type = "button";
-  checkCloze.addEventListener("click", () => {
-    const correct = clozeInput.value.trim().toLowerCase() === lesson.cloze.answer.toLowerCase();
-    clozeResult.textContent = correct ? "正确。" : "再想一次；参考词：" + lesson.cloze.answer;
-    clozeResult.className = "lesson-feedback " + (correct ? "is-correct" : "is-incorrect");
-    saveField("cloze", clozeInput.value, { checked: true, correct });
+  cloze.append(el("h2", "", "词汇填空"), el("p", "", "每题都围绕今天读到的研究概念或学术表达，先独立作答，再核对。"));
+  const clozeItems = lesson.clozes || [lesson.cloze];
+  clozeItems.forEach((item, itemIndex) => {
+    const field = lesson.clozes ? "cloze-" + (itemIndex + 1) : "cloze";
+    const prior = saved(field);
+    const exercise = el("article", "lesson-daily-exercise");
+    exercise.append(el("p", "", (itemIndex + 1) + ". " + item.prompt));
+    const clozeInput = document.createElement("input");
+    clozeInput.type = "text";
+    clozeInput.className = "lesson-answer-input";
+    clozeInput.placeholder = item.hint;
+    clozeInput.value = prior.answer || "";
+    clozeInput.addEventListener("input", () => saveField(field, clozeInput.value));
+    const clozeResult = el("p", "lesson-feedback", prior.checked ? (prior.correct ? "上次核对正确。" : "上次答案需要复习。") : "");
+    const checkCloze = el("button", "practice-button practice-button-small", "核对答案");
+    checkCloze.type = "button";
+    checkCloze.addEventListener("click", () => {
+      const correct = clozeInput.value.trim().toLowerCase() === item.answer.toLowerCase();
+      clozeResult.textContent = correct ? "正确。" : "再想一次；参考词：" + item.answer;
+      clozeResult.className = "lesson-feedback " + (correct ? "is-correct" : "is-incorrect");
+      saveField(field, clozeInput.value, { checked: true, correct });
+    });
+    exercise.append(clozeInput, checkCloze, clozeResult);
+    cloze.append(exercise);
   });
-  cloze.append(clozeInput, checkCloze, clozeResult);
   root.append(cloze);
 
   const translation = el("section", "lesson-card lesson-exercise-card");
-  translation.append(el("h2", "", "中译英：论文语境改写"), el("p", "", lesson.translation.prompt));
-  const translationInput = document.createElement("textarea");
-  translationInput.rows = 3;
-  translationInput.placeholder = "先独立翻译，再展开参考译文；允许多种准确表达。";
-  translationInput.value = saved("translation").answer || "";
-  translationInput.addEventListener("input", () => saveField("translation", translationInput.value));
-  translation.append(translationInput, reveal("查看参考译文", lesson.translation.answer));
+  translation.append(el("h2", "", "中译英：论文内容改写"), el("p", "", "中文题目依据原文中的研究设计、发现和论证关系编写。请先自己译成学术英语，再看一种参考写法。"));
+  const translationItems = lesson.translations || [lesson.translation];
+  translationItems.forEach((item, itemIndex) => {
+    const field = lesson.translations ? "translation-" + (itemIndex + 1) : "translation";
+    const exercise = el("article", "lesson-daily-exercise");
+    exercise.append(el("p", "", (itemIndex + 1) + ". " + item.prompt));
+    const translationInput = document.createElement("textarea");
+    translationInput.rows = 3;
+    translationInput.placeholder = "先独立翻译，再展开参考译文；允许多种准确表达。";
+    translationInput.value = saved(field).answer || "";
+    translationInput.addEventListener("input", () => saveField(field, translationInput.value));
+    exercise.append(translationInput, reveal("查看参考译文", item.answer));
+    translation.append(exercise);
+  });
   root.append(translation);
 
   const logic = el("section", "lesson-card lesson-exercise-card");

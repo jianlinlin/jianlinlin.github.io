@@ -109,8 +109,8 @@
 
   const getPlan = (paperId) => state.papers[paperId]?.planLength === 14 ? PLAN_14 : PLAN_7;
 
-  const lessonIndexForDay = (planLength, dayIndex) => planLength === 14
-    ? dayIndex % 7
+  const lessonIndexForDay = (paperId, planLength, dayIndex) => planLength === 14
+    ? (paperId === "iage" ? dayIndex : dayIndex % 7)
     : Math.min(dayIndex, 6);
 
   const DAILY_FOCUS = {
@@ -138,7 +138,7 @@
     const paperState = state.papers[paper.id] || {};
     const currentPlan = paperState.planLength === 14 ? 14 : 7;
     const currentDay = Math.min(paperState.selectedDay || 0, currentPlan - 1);
-    const lesson = dailyLessons[paper.id]?.[lessonIndexForDay(currentPlan, currentDay)];
+    const lesson = dailyLessons[paper.id]?.[lessonIndexForDay(paper.id, currentPlan, currentDay)];
     const sectionOptions = paper.id === "frailty-review" ? dailyLessons[paper.id].map((item) => item.section) : SECTION_NAMES;
     sectionOptions.forEach((name) => section.append(option(name, name)));
     if (lesson && sectionOptions.includes(lesson.section)) section.value = lesson.section;
@@ -284,7 +284,7 @@
     plan.forEach((day, index) => {
       const row = el("li", "study-plan-day");
       const lessonSet = dailyLessons[paper.id] || [];
-      const lesson = lessonSet[lessonIndexForDay(plan.length, index)];
+      const lesson = lessonSet[lessonIndexForDay(paper.id, plan.length, index)];
       const labelDay = el("label", "study-day-label");
       const box = document.createElement("input");
       box.type = "checkbox";
@@ -313,7 +313,7 @@
     const paperState = state.papers[paper.id] || {};
     const planLength = paperState.planLength === 14 ? 14 : 7;
     const dayIndex = Math.min(paperState.selectedDay || 0, planLength - 1);
-    const lesson = lessonSet[lessonIndexForDay(planLength, dayIndex)] || lessonSet[0];
+    const lesson = lessonSet[lessonIndexForDay(paper.id, planLength, dayIndex)] || lessonSet[0];
     const key = (field) => dailyKey(paper.id, dayIndex, field);
     const saved = (field) => state.dailyExercises[key(field)] || {};
     const phase = planLength === 14 ? (dayIndex % 2 === 0 ? "精读与结构标注" : "回忆、翻译与改写") : "完整章节训练";
