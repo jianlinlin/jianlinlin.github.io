@@ -1,8 +1,8 @@
 # Academic Writing Library
 
-The public landing page is `index.html`. Paper records and seven authored daily lessons per paper live in `library-data.js`; browser-only interaction, 7/14-day scheduling, sentence-by-sentence notebook, local answer saving, recall scheduling, paragraph drafting, and progress summary live in `catalog.js`.
+The public landing page is `index.html`. Paper records and seven authored lesson units per paper live in `library-data.js`; the 84 standalone day URLs live under `lessons/{paper-id}/day-01.html` through `day-14.html`. `lesson-page.js` renders the selected unit on its own page. `catalog.js` provides the paper library, 7/14-day index, expression bank, recall, translation, paragraph lab, and progress summary.
 
-Each daily lesson contains a full-section reading assignment, two focused vocabulary items with explanations and sentence prompts, a cloze, a Chinese-to-English exercise with a model answer, a logic-connector question, and a paragraph task. A 14-day cycle revisits the same seven article units for first-pass reading and a second pass of recall, translation, and rewriting. The source-sentence notebook lets the learner work through the complete linked paper one sentence at a time; all entries remain in that browser's local storage.
+Each daily page contains a full-section reading assignment, two focused vocabulary items with explanations and sentence prompts, a cloze, a Chinese-to-English exercise with a model answer, a logic-connector question, a paragraph task, and a source-sentence notebook. Days 1–7 cover all seven lesson units; days 8–14 revisit those units for recall, translation, and rewriting. The learner can work through the complete linked paper one sentence at a time; all entries remain in that browser's local storage.
 
 ## Adding a paper
 

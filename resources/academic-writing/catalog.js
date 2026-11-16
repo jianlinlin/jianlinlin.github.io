@@ -110,7 +110,7 @@
   const getPlan = (paperId) => state.papers[paperId]?.planLength === 14 ? PLAN_14 : PLAN_7;
 
   const lessonIndexForDay = (planLength, dayIndex) => planLength === 14
-    ? Math.min(Math.floor(dayIndex / 2), 6)
+    ? dayIndex % 7
     : Math.min(dayIndex, 6);
 
   const DAILY_FOCUS = {
@@ -299,13 +299,8 @@
       if (paper.focus[fallbackFocusKey]) main.append(el("span", "study-day-focus", paper.focus[fallbackFocusKey]));
       main.append(el("span", "study-day-task", lesson ? lesson.title : day.task));
       labelDay.append(box, main);
-      const selectedDay = state.papers[paper.id]?.selectedDay || 0;
-      if (selectedDay === index) row.classList.add("is-selected-day");
-      const start = el("button", "practice-button practice-button-small study-day-start", selectedDay === index ? "当前训练" : "打开当天训练");
-      start.type = "button";
-      start.dataset.action = "select-training-day";
-      start.dataset.paperId = paper.id;
-      start.dataset.dayIndex = String(index);
+      const start = el("a", "practice-button practice-button-small study-day-start", "进入独立训练页 →");
+      start.href = "lessons/" + paper.id + "/day-" + String(index + 1).padStart(2, "0") + ".html";
       row.append(labelDay, start);
       list.append(row);
     });
@@ -462,7 +457,7 @@
       card.append(el("p", "paper-access-note", paper.access));
       const study = el("details", "paper-study");
       study.open = openId === paper.id;
-      study.append(el("summary", "", "展开章节学习计划与练习"));
+      study.append(el("summary", "", "展开论文介绍与每日训练目录"));
       const focusList = el("ul", "paper-focus-list");
       SECTION_NAMES.forEach((section) => {
         const key = section.toLowerCase();
@@ -473,11 +468,8 @@
       study.append(el("h4", "paper-subheading", "本篇专项阅读重点"), focusList);
       const planHeading = el("h4", "paper-subheading", "按天学习原文");
       study.append(planHeading);
+      study.append(el("p", "paper-day-link-note", "每个日期都会打开独立训练页；7 天计划链接到前 7 天，两周计划包含全部 14 天。"));
       renderPlan(paper, study);
-      renderDailyTraining(paper, study);
-      renderSentenceNotebook(paper, study);
-      renderWordBank(paper, study, keepVocabularyOpen && openId === paper.id);
-      renderCloze(paper, study, keepClozeOpen && openId === paper.id);
       card.append(study);
       paperCards.append(card);
     });
