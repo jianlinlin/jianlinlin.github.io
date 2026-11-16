@@ -45,9 +45,9 @@
   const readState = () => {
     try {
       const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-      return Object.assign({ papers: {}, sentences: {}, wordSentences: {}, translations: {}, recall: {}, drafts: {}, weakPoints: {}, logicChecks: {} }, parsed);
+      return Object.assign({ papers: {}, sentences: {}, wordSentences: {}, translations: {}, recall: {}, drafts: {}, weakPoints: {}, logicChecks: {}, dailyExercises: {} }, parsed);
     } catch (_) {
-      return { papers: {}, sentences: {}, wordSentences: {}, translations: {}, recall: {}, drafts: {}, weakPoints: {}, logicChecks: {} };
+      return { papers: {}, sentences: {}, wordSentences: {}, translations: {}, recall: {}, drafts: {}, weakPoints: {}, logicChecks: {}, dailyExercises: {} };
     }
   };
   const state = readState();
@@ -109,6 +109,21 @@
 
   const getPlan = (paperId) => state.papers[paperId]?.planLength === 14 ? PLAN_14 : PLAN_7;
 
+  const lessonIndexForDay = (planLength, dayIndex) => planLength === 14
+    ? Math.min(Math.floor(dayIndex / 2), 6)
+    : Math.min(dayIndex, 6);
+
+  const DAILY_FOCUS = {
+    "Clinical concept": "introduction",
+    "Assessment frameworks": "methods",
+    "Clinical assessment": "results",
+    Pathophysiology: "discussion",
+    Management: "discussion",
+    "Conclusion & synthesis": "conclusion"
+  };
+
+  const dailyKey = (paperId, dayIndex, field) => paperId + ":" + dayIndex + ":" + field;
+
   const renderSentenceNotebook = (paper, parent) => {
     const details = el("details", "sentence-notebook");
     const summary = el("summary", "", "原文逐句精读记录");
@@ -120,7 +135,13 @@
     const section = document.createElement("select");
     section.className = "sentence-section";
     section.setAttribute("aria-label", "原文所在章节");
-    SECTION_NAMES.forEach((name) => section.append(option(name, name)));
+    const paperState = state.papers[paper.id] || {};
+    const currentPlan = paperState.planLength === 14 ? 14 : 7;
+    const currentDay = Math.min(paperState.selectedDay || 0, currentPlan - 1);
+    const lesson = dailyLessons[paper.id]?.[lessonIndexForDay(currentPlan, currentDay)];
+    const sectionOptions = paper.id === "frailty-review" ? dailyLessons[paper.id].map((item) => item.section) : SECTION_NAMES;
+    sectionOptions.forEach((name) => section.append(option(name, name)));
+    if (lesson && sectionOptions.includes(lesson.section)) section.value = lesson.section;
     const original = document.createElement("textarea");
     original.className = "sentence-original";
     original.rows = 2;
@@ -262,6 +283,8 @@
     const list = el("ol", "study-plan-list");
     plan.forEach((day, index) => {
       const row = el("li", "study-plan-day");
+      const lessonSet = dailyLessons[paper.id] || [];
+      const lesson = lessonSet[lessonIndexForDay(plan.length, index)];
       const labelDay = el("label", "study-day-label");
       const box = document.createElement("input");
       box.type = "checkbox";
@@ -270,15 +293,138 @@
       box.dataset.paperId = paper.id;
       box.dataset.dayIndex = String(index);
       const main = el("span", "study-day-main");
-      main.append(el("b", "", "第 " + (index + 1) + " 天 · " + day.section));
-      const focusKey = day.focus || day.section.toLowerCase();
-      if (paper.focus[focusKey]) main.append(el("span", "study-day-focus", paper.focus[focusKey]));
-      main.append(el("span", "study-day-task", day.task));
+      main.append(el("b", "", "第 " + (index + 1) + " 天 · " + (lesson?.section || day.section)));
+      const focusKey = DAILY_FOCUS[lesson?.section] || lesson?.section.toLowerCase();
+      const fallbackFocusKey = paper.focus[focusKey] ? focusKey : day.focus || day.section.toLowerCase();
+      if (paper.focus[fallbackFocusKey]) main.append(el("span", "study-day-focus", paper.focus[fallbackFocusKey]));
+      main.append(el("span", "study-day-task", lesson ? lesson.title : day.task));
       labelDay.append(box, main);
-      row.append(labelDay);
+      const selectedDay = state.papers[paper.id]?.selectedDay || 0;
+      if (selectedDay === index) row.classList.add("is-selected-day");
+      const start = el("button", "practice-button practice-button-small study-day-start", selectedDay === index ? "当前训练" : "打开当天训练");
+      start.type = "button";
+      start.dataset.action = "select-training-day";
+      start.dataset.paperId = paper.id;
+      start.dataset.dayIndex = String(index);
+      row.append(labelDay, start);
       list.append(row);
     });
     parent.append(controls, list);
+  };
+
+  const renderDailyTraining = (paper, parent) => {
+    const lessonSet = dailyLessons[paper.id] || [];
+    if (!lessonSet.length) return;
+    const paperState = state.papers[paper.id] || {};
+    const planLength = paperState.planLength === 14 ? 14 : 7;
+    const dayIndex = Math.min(paperState.selectedDay || 0, planLength - 1);
+    const lesson = lessonSet[lessonIndexForDay(planLength, dayIndex)] || lessonSet[0];
+    const key = (field) => dailyKey(paper.id, dayIndex, field);
+    const saved = (field) => state.dailyExercises[key(field)] || {};
+    const phase = planLength === 14 ? (dayIndex % 2 === 0 ? "精读与结构标注" : "回忆、翻译与改写") : "完整章节训练";
+    const sectionLink = paper.links.find((link) => link.label.includes("PMC 全文"))
+      || paper.links.find((link) => link.label.includes("作者版本"))
+      || paper.links[0];
+    const section = el("section", "daily-training panel-soft");
+    section.dataset.paperId = paper.id;
+    section.append(el("div", "daily-training-heading", "第 " + (dayIndex + 1) + " 天 · " + lesson.section + " · " + phase));
+    section.append(el("h4", "", lesson.title));
+    section.append(el("p", "daily-reading-scope", lesson.scope));
+    const source = el("a", "practice-button daily-source-link", "打开论文全文，开始本节逐句精读");
+    source.href = sectionLink.url;
+    source.target = "_blank";
+    source.rel = "noopener noreferrer";
+    section.append(source);
+    const note = el("p", "daily-original-note", "请读完本节全文，并在下方“原文逐句精读记录”逐句录入英文原句和你的中文译文。14 天模式把同一部分分成首次精读与复述改写两天；7 天模式每天完成一个完整训练单元。英文例句与参考译文均为根据论文内容重新撰写的练习，不是论文原句。 ");
+    section.append(note);
+    if (planLength === 14 && dayIndex % 2 === 1) section.append(el("p", "daily-reading-scope", "复习日建议先合上原文，凭记忆完成词汇、填空和翻译；再回到原文逐句核对，并据此重写段落。"));
+
+    const wordGroup = vocabularyBank.find((entry) => entry.paperId === paper.id);
+    const wordCards = (lesson.terms || []).map((term) => wordGroup?.items.find((item) => item.term === term)).filter(Boolean);
+    const words = el("div", "daily-vocabulary-grid");
+    words.append(el("h5", "daily-subheading", "今日重点词汇与造句"));
+    wordCards.forEach((word) => {
+      const card = el("article", "daily-word-card");
+      card.append(el("h5", "", word.term + " · " + word.pos), el("p", "", word.meaning), el("p", "", "常见搭配：" + word.collocation), el("p", "daily-example", "例句：" + word.example));
+      const makeLabel = el("label", "daily-field-label", lesson.sentence.prompt);
+      const input = document.createElement("textarea");
+      input.rows = 2;
+      input.placeholder = "先独立造句，可尝试使用上述搭配。";
+      input.value = state.wordSentences[paper.id + ":" + word.term] || "";
+      input.dataset.wordKey = paper.id + ":" + word.term;
+      makeLabel.append(input);
+      card.append(makeLabel);
+      const reveal = el("details", "daily-answer-reveal");
+      reveal.append(el("summary", "", "查看造句参考"), el("p", "", lesson.sentence.model));
+      card.append(reveal);
+      words.append(card);
+    });
+    section.append(words);
+
+    const clozeCard = el("article", "daily-exercise-card cloze-card");
+    clozeCard.dataset.taskId = "daily:" + key("cloze");
+    clozeCard.append(el("h5", "daily-subheading", "词汇填空（原创例句）"), el("p", "daily-cloze-prompt", lesson.cloze.prompt));
+    const clozeInput = document.createElement("input");
+    clozeInput.type = "text";
+    clozeInput.className = "cloze-answer";
+    clozeInput.dataset.dailyKey = key("cloze");
+    clozeInput.placeholder = lesson.cloze.hint;
+    clozeInput.value = saved("cloze").answer || "";
+    clozeCard.append(clozeInput);
+    const clozeCheck = el("button", "practice-button practice-button-small", "核对填空");
+    clozeCheck.type = "button";
+    clozeCheck.dataset.action = "check-cloze";
+    clozeCheck.dataset.expected = lesson.cloze.answer;
+    clozeCard.append(clozeCheck, el("span", "cloze-result", ""));
+    const priorCloze = state.translations["cloze:daily:" + key("cloze")];
+    if (priorCloze?.checked) {
+      const result = clozeCard.querySelector(".cloze-result");
+      result.textContent = priorCloze.correct ? "上次核对正确。" : "上次答案需要复习。参考词：" + lesson.cloze.answer;
+      result.className = "cloze-result " + (priorCloze.correct ? "is-correct" : "is-incorrect");
+    }
+    section.append(clozeCard);
+
+    const translation = el("article", "daily-exercise-card");
+    translation.append(el("h5", "daily-subheading", "中译英：研究语境改写"), el("p", "daily-translation-prompt", lesson.translation.prompt));
+    const answerBox = document.createElement("textarea");
+    answerBox.rows = 3;
+    answerBox.placeholder = "先独立翻译。参考答案提供一种自然写法，允许其他准确表达。";
+    answerBox.value = saved("translation").answer || "";
+    answerBox.dataset.dailyKey = key("translation");
+    translation.append(answerBox);
+    const model = el("details", "daily-answer-reveal");
+    model.append(el("summary", "", "查看参考译文"), el("p", "", lesson.translation.answer));
+    translation.append(model);
+    section.append(translation);
+
+    const connector = el("article", "daily-exercise-card");
+    connector.append(el("h5", "daily-subheading", "逻辑递进词辨析"), el("p", "daily-connector-example", lesson.connector.before + " ___ " + lesson.connector.after));
+    const connectorSelect = document.createElement("select");
+    connectorSelect.dataset.dailyKey = key("connector");
+    connectorSelect.append(option("", "选择最合适的逻辑关系词"));
+    lesson.connector.options.forEach((choice) => connectorSelect.append(option(choice, choice)));
+    connectorSelect.value = saved("connector").answer || "";
+    connector.append(connectorSelect);
+    const connectorCheck = el("button", "practice-button practice-button-small", "核对逻辑");
+    connectorCheck.type = "button";
+    connectorCheck.dataset.action = "check-daily-connector";
+    connectorCheck.dataset.expected = lesson.connector.answer;
+    connector.append(connectorCheck, el("span", "daily-connector-result", ""));
+    const connectorWhy = el("details", "daily-answer-reveal");
+    connectorWhy.append(el("summary", "", "查看解析"), el("p", "", lesson.connector.why));
+    connector.append(connectorWhy);
+    section.append(connector);
+
+    const paragraph = el("article", "daily-exercise-card");
+    paragraph.append(el("h5", "daily-subheading", "段落训练"), el("p", "", lesson.paragraph));
+    const draft = document.createElement("textarea");
+    draft.rows = 6;
+    draft.placeholder = "Write your paragraph here. It is saved in this browser.";
+    draft.value = saved("paragraph").answer || "";
+    draft.dataset.dailyKey = key("paragraph");
+    paragraph.append(draft, el("span", "daily-save-status", saved("paragraph").answer ? "已保存在本机浏览器" : "输入后自动保存"));
+    section.append(paragraph);
+    parent.append(section);
   };
 
   const renderPaperCards = (openId, keepVocabularyOpen, keepClozeOpen) => {
@@ -328,6 +474,7 @@
       const planHeading = el("h4", "paper-subheading", "按天学习原文");
       study.append(planHeading);
       renderPlan(paper, study);
+      renderDailyTraining(paper, study);
       renderSentenceNotebook(paper, study);
       renderWordBank(paper, study, keepVocabularyOpen && openId === paper.id);
       renderCloze(paper, study, keepClozeOpen && openId === paper.id);
@@ -608,6 +755,7 @@
     if (target.classList.contains("plan-length")) {
       state.papers[paperId] = state.papers[paperId] || { checkedDays: {} };
       state.papers[paperId].planLength = Number(target.value);
+      state.papers[paperId].selectedDay = 0;
       saveState();
       renderPaperCards(paperId);
       renderProgress();
@@ -625,6 +773,10 @@
       const badge = document.querySelector('[data-paper-card="' + paperId + '"] .mastery-badge');
       if (badge) badge.textContent = state.papers[paperId].mastery;
     }
+    if (target.dataset.dailyKey) {
+      state.dailyExercises[target.dataset.dailyKey] = Object.assign({}, state.dailyExercises[target.dataset.dailyKey], { answer: target.value });
+      saveState();
+    }
   });
 
   paperCards.addEventListener("input", (event) => {
@@ -633,6 +785,12 @@
       state.wordSentences[target.dataset.wordKey] = target.value;
       saveState();
     }
+    if (target.dataset.dailyKey) {
+      state.dailyExercises[target.dataset.dailyKey] = Object.assign({}, state.dailyExercises[target.dataset.dailyKey], { answer: target.value });
+      saveState();
+      const status = target.closest(".daily-exercise-card")?.querySelector(".daily-save-status");
+      if (status) status.textContent = "已保存在本机浏览器";
+    }
   });
 
   paperCards.addEventListener("click", (event) => {
@@ -640,7 +798,13 @@
     if (!button) return;
     const action = button.dataset.action;
     const paperId = button.dataset.paperId;
-    if (action === "save-source-sentence") {
+    if (action === "select-training-day") {
+      state.papers[paperId] = state.papers[paperId] || { checkedDays: {} };
+      state.papers[paperId].selectedDay = Number(button.dataset.dayIndex);
+      saveState();
+      renderPaperCards(paperId);
+      document.querySelector('[data-paper-card="' + paperId + '"] .daily-training')?.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if (action === "save-source-sentence") {
       const entry = button.closest(".sentence-entry");
       const original = entry.querySelector(".sentence-original").value.trim();
       const translation = entry.querySelector(".sentence-chinese").value.trim();
@@ -678,6 +842,22 @@
       if (!correct) setWeakPoint("论文关键词填空");
       const key = "cloze:" + card.dataset.taskId;
       state.translations[key] = { answer, checked: true, correct };
+      if (card.querySelector(".cloze-answer").dataset.dailyKey) {
+        const dailyAnswerKey = card.querySelector(".cloze-answer").dataset.dailyKey;
+        state.dailyExercises[dailyAnswerKey] = Object.assign({}, state.dailyExercises[dailyAnswerKey], { answer });
+      }
+      saveState();
+      renderProgress();
+    } else if (action === "check-daily-connector") {
+      const card = button.closest(".daily-exercise-card");
+      const selected = card.querySelector("select").value;
+      const correct = selected === button.dataset.expected;
+      const result = card.querySelector(".daily-connector-result");
+      result.textContent = correct ? "正确。" : "再判断两句的关系；参考答案：" + button.dataset.expected;
+      result.className = "daily-connector-result " + (correct ? "is-correct" : "is-incorrect");
+      if (!correct) setWeakPoint("每日逻辑递进词");
+      const connectorSelect = card.querySelector("select");
+      if (connectorSelect.dataset.dailyKey) state.dailyExercises[connectorSelect.dataset.dailyKey] = Object.assign({}, state.dailyExercises[connectorSelect.dataset.dailyKey], { checked: true, correct });
       saveState();
       renderProgress();
     } else if (action === "check-source-cloze") {

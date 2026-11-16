@@ -431,12 +431,38 @@ body.resource-locked > :not(#resource-password-gate) { visibility:hidden; }
 .plan-controls label { max-width:220px; }
 .study-plan-list { display:grid; gap:7px; margin:0; padding:0; list-style:none; }
 .study-plan-day { padding:10px; border:1px solid #e0e6e8; border-radius:5px; background:#fff; }
+.study-plan-day.is-selected-day { border-color:#7ca3b1; background:#f1f7f8; }
 .study-day-label { display:flex; align-items:flex-start; gap:9px; cursor:pointer; }
 .study-day-label > input { margin-top:4px; accent-color:#27637d; }
 .study-day-main { display:grid; gap:4px; min-width:0; }
 .study-day-main b { color:#355365; font-size:12px; }
 .study-day-focus,.study-day-task { color:#66747c; font-size:12px; line-height:1.6; }
 .study-day-focus { color:#4a5962; }
+.study-day-start { margin:9px 0 0 26px; }
+.daily-training { display:grid; gap:12px; margin-top:14px; padding:15px; background:#f5f9fa; }
+.daily-training-heading { color:#7b604d; font-size:11px; font-weight:700; letter-spacing:.03em; text-transform:uppercase; }
+.daily-training > h4 { margin:0; color:#294b60; font-size:18px; line-height:1.4; }
+.daily-reading-scope,.daily-original-note { margin:0; color:#566670; font-size:12px; line-height:1.7; }
+.daily-original-note { padding:9px 11px; border-left:3px solid #7c9eaa; background:#edf4f6; }
+.daily-source-link { justify-self:start; text-decoration:none; }
+.daily-vocabulary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:8px; }
+.daily-subheading { grid-column:1/-1; margin:0; color:#355568; font-size:13px; }
+.daily-word-card,.daily-exercise-card { padding:12px; border:1px solid #dfe6e9; border-radius:5px; background:#fff; }
+.daily-word-card h5 { margin:0 0 6px; color:#294b60; font-size:14px; }
+.daily-word-card p { margin:5px 0; color:#5d6b73; font-size:11px; line-height:1.55; }
+.daily-example { color:#385e70!important; }
+.daily-field-label { display:grid; gap:6px; margin-top:8px; color:#56656e; font-size:11px; line-height:1.5; }
+.daily-field-label textarea,.daily-exercise-card textarea,.daily-exercise-card input,.daily-exercise-card select { width:100%; box-sizing:border-box; padding:9px 10px; border:1px solid #ccd5da; border-radius:4px; background:#fff; color:#26343d; font:inherit; font-size:12px; line-height:1.6; }
+.daily-exercise-card { display:grid; gap:8px; }
+.daily-exercise-card .daily-subheading { margin-bottom:1px; }
+.daily-cloze-prompt,.daily-translation-prompt,.daily-connector-example,.daily-exercise-card > p { margin:0; color:#43545d; font-size:12px; line-height:1.65; }
+.daily-exercise-card .cloze-result { grid-column:auto; }
+.daily-answer-reveal { color:#546771; font-size:11px; line-height:1.6; }
+.daily-answer-reveal summary { color:#315c70; cursor:pointer; font-weight:700; }
+.daily-answer-reveal p { margin:7px 0 0; }
+.daily-connector-result,.daily-save-status { color:#718087; font-size:11px; }
+.daily-connector-result.is-correct { color:#287348; }
+.daily-connector-result.is-incorrect { color:#a33a32; }
 .sentence-notebook,.paper-vocabulary,.paper-cloze { margin-top:13px; border:1px solid #dfe6e9; border-radius:5px; background:#fff; }
 .sentence-notebook > summary,.paper-vocabulary > summary,.paper-cloze > summary { padding:11px 12px; color:#28556d; cursor:pointer; font-size:13px; font-weight:700; }
 .notebook-help,.cloze-note { margin:0; padding:0 12px 10px; color:#69767e; font-size:12px; line-height:1.65; }
